@@ -1,6 +1,9 @@
 package bank.springdemo.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +54,17 @@ public class jwtUtils {
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(jwtSecret)
         );
+    }
 
+    //Validating the JWT Token
+    public boolean validateJwtToken(String jwtToken) {
+        try {
+            Jwts.parser().verifyWith((SecretKey) key())
+                    .build().parseSignedClaims(jwtToken);
+            return true;
+        } catch (MalformedJwtException | UnsupportedJwtException | ExpiredJwtException | IllegalArgumentException e) {
+            logger.error("Error Message: {}", e.getMessage());
+        }
+        return false;
     }
 }
