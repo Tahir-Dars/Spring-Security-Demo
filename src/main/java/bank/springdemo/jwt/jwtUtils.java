@@ -33,6 +33,6 @@ public class jwtUtils {
                 .expiration(new Date(new Date().getTime() + jwtExpirations_ms))
                 .signWith(Key()) //{New method in the class will be created for this}
                 .compact();
-        return null;
+        return jwtToken;
     }
 }
