@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,11 @@ import java.util.Date;
 @Component
 public class jwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(jwtUtils.class);
+
+    @Value("${spring.app.jwtExpirations_ms}")
     private int jwtExpirations_ms;
+
+    @Value("${spring.app.jwtSecret}")
     private String jwtSecret;
 
     //Getting tokens from the headers
