@@ -28,7 +28,7 @@ public class jwtUtils {
     //Generating the tokens using the username
     public String genTokensFromUserName(UserDetails userDetails) {
         String userName = userDetails.getUsername();
-        String jwtToken = Jwts.builder().subject(userName)
+        return Jwts.builder().subject(userName)
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirations_ms))
                 .signWith(Key()) //{New method in the class will be created for this}
