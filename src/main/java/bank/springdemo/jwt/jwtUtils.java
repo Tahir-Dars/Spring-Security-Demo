@@ -35,4 +35,11 @@ public class jwtUtils {
                 .compact();
         return jwtToken;
     }
+
+    //Getting the Username from JWT Token
+    public String getUserNameFromJwtToken(String jwtToken) {
+        return Jwts.parser().verifyWith(Key())
+                .build().parseSignedClaims(jwtToken)
+                .getPayload().getSubject();
+    }
 }
