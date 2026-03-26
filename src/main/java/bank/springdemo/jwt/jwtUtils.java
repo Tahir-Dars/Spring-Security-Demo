@@ -64,6 +64,7 @@ public class jwtUtils {
     //Validating the JWT Token
     public boolean validateJwtToken(String jwtToken) {
         try {
+            //what if the nullability of token can be checked anyway ??
             Jwts.parser().verifyWith((SecretKey) key())
                     .build().parseSignedClaims(jwtToken);
             return true;
