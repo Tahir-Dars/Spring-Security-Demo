@@ -1,7 +1,10 @@
 package bank.springdemo.controller;
 
 import bank.springdemo.jwt.LoginRequest;
+import bank.springdemo.jwt.LoginResponse;
 import bank.springdemo.jwt.jwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 public class GreetingController {
+
+    private final Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
     private AuthenticationManager authenticationManager;
 
@@ -62,7 +68,14 @@ public class GreetingController {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String jwtToken = jwtutils.genTokensFromUserName(userDetails);
+        List<String> roles = userDetails.getAuthorities().stream().map(
+                item -> item.getAuthority()).toList();
+        LoginResponse loginResponse = new LoginResponse(
+                jwtToken, userDetails.getUsername(), roles
+        );
 
-        return null;
+        return ResponseEntity.status(200).body(loginResponse);
     }
 }
