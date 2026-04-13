@@ -20,13 +20,16 @@ import java.io.IOException;
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private final jwtUtils jwtUtilss;
-    private final UserDetailsService userDetailsService;
+    private jwtUtils jwtUtilss;
+    private UserDetailsService userDetailsService;
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     public AuthTokenFilter(jwtUtils jwtUtilss, UserDetailsService userDetailsService, DefaultAuthenticationEventPublisher authenticationEventPublisher) {
         this.jwtUtilss = jwtUtilss;
         this.userDetailsService = userDetailsService;
+    }
+
+    public AuthTokenFilter() {
     }
 
     @Override
