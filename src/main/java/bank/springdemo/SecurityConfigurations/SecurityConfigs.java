@@ -83,7 +83,7 @@ public class SecurityConfigs {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration, PathPatternRequestMatcher.Builder builder) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 }
