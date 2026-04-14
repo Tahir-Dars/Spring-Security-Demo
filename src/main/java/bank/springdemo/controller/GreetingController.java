@@ -29,6 +29,7 @@ public class GreetingController {
 
     private final Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
