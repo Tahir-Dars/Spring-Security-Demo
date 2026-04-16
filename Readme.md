@@ -1,6 +1,6 @@
 # SpringDemo — Security Overview
 
-This repository is a Spring Boot demo focused on implementing stateless JWT authentication and role-based authorization. The README explains what security features are implemented, why they are used, how the main pieces interact, and how to test them (including H2 console access).
+This repository demonstrates stateless JWT authentication and role-based authorization in a Spring Boot application. This README focuses on what security is implemented, how it works, how to test it, and quick fixes for common issues (especially around `/signin` and the H2 console).
 
 ---
 
@@ -8,8 +8,8 @@ This repository is a Spring Boot demo focused on implementing stateless JWT auth
 
 - Authentication: POST `/signin` accepts credentials and returns a JWT (Bearer token).
 - Authorization: protected endpoints require a valid JWT in the `Authorization: Bearer <token>` header.
-- Passwords: stored/verified with BCrypt via a shared `PasswordEncoder`.
-- Filters: a custom `AuthTokenFilter` extracts & validates JWTs and populates the `SecurityContext`.
+- Passwords: stored and verified with BCrypt using a shared `PasswordEncoder` bean.
+- Filters: custom `AuthTokenFilter` inspects requests for JWTs and sets authentication when valid.
 - Error handling: `AuthEntryPoint` returns JSON 401 responses for unauthorized requests.
 
 ---
@@ -17,9 +17,9 @@ This repository is a Spring Boot demo focused on implementing stateless JWT auth
 ## Key security-related files
 
 - `src/main/java/bank/springdemo/jwt/jwtUtils.java` — create/validate JWTs and extract username.
-- `src/main/java/bank/springdemo/jwt/AuthTokenFilter.java` — Spring `OncePerRequestFilter` that reads Authorization header, validates token, and sets authentication.
+- `src/main/java/bank/springdemo/jwt/AuthTokenFilter.java` — `OncePerRequestFilter` that reads the `Authorization` header, validates the token, and sets authentication.
 - `src/main/java/bank/springdemo/jwt/AuthEntryPoint.java` — returns JSON error responses for 401s.
-- `src/main/java/bank/springdemo/jwt/LoginRequest.java` — DTO for signin payload.
+- `src/main/java/bank/springdemo/jwt/LoginRequest.java` — DTO for signin payload (maps incoming `username` JSON key to the DTO field).
 - `src/main/java/bank/springdemo/controller/GreetingController.java` — contains `POST /signin` and example protected endpoints.
 - `src/main/java/bank/springdemo/SecurityConfigurations/SecurityConfigs.java` — security configuration (filter chain, `permitAll` paths, `PasswordEncoder`).
 
@@ -29,7 +29,7 @@ This repository is a Spring Boot demo focused on implementing stateless JWT auth
 
 1. Client POSTs credentials to `POST /signin` (JSON body).
 2. Controller authenticates via `AuthenticationManager`.
-3. On success the server creates a JWT via `jwtUtils` and returns it as JSON.
+3. On success the server creates a JWT via `jwtUtils` and returns it as JSON (includes token, username and roles).
 4. Client includes `Authorization: Bearer <token>` on subsequent requests to protected endpoints.
 5. `AuthTokenFilter` validates the token and sets authentication in the `SecurityContext`.
 
@@ -37,11 +37,17 @@ This repository is a Spring Boot demo focused on implementing stateless JWT auth
 
 ## Important behavior & gotchas (short)
 
-- JSON field binding: the signin DTO uses `userName` in code but clients commonly send `username`. The project maps the JSON key `username` to the DTO field so sending `{ "username": "user1", "password": "password1" }` with `Content-Type: application/json` works.
+- JSON field binding: the code uses a DTO field `userName` but clients commonly send `username`. The project maps `username` → `userName` using `@JsonProperty`, so sending:
 
-- Auth filter ordering: `AuthTokenFilter` runs before core authentication filters. If it treats a missing/invalid token as an immediate error (calling the `AuthenticationEntryPoint`), requests like `/signin` or `/h2-console/**` may be blocked before the controller or security config `permitAll()` is applied. The recommended behavior is to *skip* token validation when no token is present, and only populate the `SecurityContext` when a valid token exists.
+```json
+{ "username": "user1", "password": "password1" }
+```
 
-- H2 console: the H2 console (`/h2-console`) is a web UI that requires frame support and must be permitted in the security configuration. If you see a 401 for `/h2-console`, it means access is blocked by security (or the filter rejected the request due to missing/invalid token). To allow it, ensure `SecurityConfigs` permits `/h2-console/**` and call `http.headers().frameOptions().disable()`.
+with header `Content-Type: application/json` works.
+
+- Auth filter ordering: `AuthTokenFilter` runs early in the filter chain. It should *not* reject a request just because there's no token; it should only populate the `SecurityContext` when a valid token is present. If the filter calls the `AuthenticationEntryPoint` on missing/invalid tokens for all paths, unprotected endpoints such as `/signin` or `/h2-console/**` will be blocked with 401.
+
+- H2 console: the H2 console (`/h2-console`) requires frame support and must be explicitly permitted by your security configuration. If you see a 401 or a JSON error at `/h2-console`, either the endpoint is not permitted or the auth filter rejected the request before `permitAll()` took effect. To allow it, permit `/h2-console/**` and add `http.headers().frameOptions().disable()` in your security config.
 
 ---
 
@@ -58,13 +64,13 @@ This repository is a Spring Boot demo focused on implementing stateless JWT auth
 
 Curl example:
 
-```bash
+```powershell
 curl -i -H "Content-Type: application/json" -d '{"username":"user1","password":"password1"}' http://localhost:8080/signin
 ```
 
 2) Use returned token to call a protected endpoint:
 
-```bash
+```powershell
 curl -i -H "Authorization: Bearer <TOKEN>" http://localhost:8080/user/hello
 ```
 
@@ -75,11 +81,11 @@ curl -i -H "Authorization: Bearer <TOKEN>" http://localhost:8080/user/hello
 ## Common problems & fixes (short)
 
 - Bad Credentials / 401 on `/signin`:
-  - Cause: request JSON was not bound (field name mismatch) or `Content-Type` missing. Fix: send `Content-Type: application/json` and keys matching the DTO (the repo maps `username` → `userName`).
-  - Cause: `AuthenticationManager` cannot find the user or password encoding mismatch. Fix: ensure seeded users exist and use BCrypt.
+  - Cause: request JSON not bound (field name mismatch) or `Content-Type` missing. Fix: send `Content-Type: application/json` and keys matching the DTO (this project maps `username` to the DTO field).
+  - Cause: `AuthenticationManager` cannot find the user or password encoder mismatch. Fix: ensure seeded users exist and use BCrypt.
 
 - 401 on `/h2-console`:
-  - Cause: `AuthTokenFilter` blocked the request before `permitAll()` applied. Fix: make the filter ignore requests with no Authorization header, or explicitly permit `/h2-console/**` in `SecurityConfigs` and disable frameOptions.
+  - Cause: `AuthTokenFilter` blocked the request before `permitAll()` applied. Fix: make the filter ignore requests with no Authorization header (i.e., skip token parsing when header is absent) or explicitly permit `/h2-console/**` and disable frame options in `SecurityConfigs`.
 
 - Token validation errors:
   - Cause: wrong signing key, malformed token, expired token. Fix: check `spring.app.jwtSecret` and `spring.app.jwtExpirations_ms` in `application.properties` and inspect logs from `jwtUtils`.
@@ -89,7 +95,7 @@ curl -i -H "Authorization: Bearer <TOKEN>" http://localhost:8080/user/hello
 ## Minimal recommended fixes (if you encounter issues)
 
 - Ensure DTO binding: map `username` JSON key to your DTO (already done here using `@JsonProperty`).
-- Make `AuthTokenFilter` tolerant of no-token requests: only set SecurityContext when a valid token is present; do not trigger an immediate 401 from the filter.
+- Make `AuthTokenFilter` tolerant of no-token requests: only set `SecurityContext` when a valid token is present; do not call `AuthEntryPoint` for absent tokens on unprotected endpoints.
 - In `SecurityConfigs`, explicitly `permitAll()` for `POST /signin` and `"/h2-console/**"` and disable `frameOptions`.
 - Use a single `PasswordEncoder` bean (BCrypt) everywhere (user seeding + authentication).
 
@@ -103,14 +109,4 @@ curl -i -H "Authorization: Bearer <TOKEN>" http://localhost:8080/user/hello
 4. `src/main/java/bank/springdemo/SecurityConfigurations/SecurityConfigs.java` — permitted paths and filter chain ordering.
 5. `src/main/java/bank/springdemo/controller/GreetingController.java` — the `POST /signin` implementation.
 
----
-
-## Final notes
-
-This README focuses on the security design used in the project and practical steps to test and troubleshoot it. If you want, I can:
-
-- Add a short `SECURITY.md` with more details (threat model and mitigations). 
-- Make the `AuthTokenFilter` explicitly skip unprotected endpoints (I can apply that change).
-
-If you'd like either of those, tell me which and I'll implement it.
 
