@@ -1,0 +1,87 @@
+2026-04-16T00:49:25.159+05:00  WARN 12784 --- [SpringDemo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h30s614ms203µs500ns).
+2026-04-16T01:45:05.671+05:00  INFO 12784 --- [SpringDemo] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T01:45:05.686+05:00  INFO 12784 --- [SpringDemo] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-04-16T01:45:05.693+05:00  INFO 12784 --- [SpringDemo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T01:45:05.698+05:00  INFO 12784 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T01:45:05.701+05:00  INFO 12784 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T17:07:09.262+05:00  INFO 4824 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : Starting SpringDemoApplication using Java 25.0.1 with PID 4824 (D:\Backend\Spring Boot\SpringDemo\target\classes started by mtahi in D:\Backend\Spring Boot\SpringDemo)
+2026-04-16T17:07:09.268+05:00  INFO 4824 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T17:07:11.831+05:00  INFO 4824 --- [SpringDemo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T17:07:11.873+05:00  INFO 4824 --- [SpringDemo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 0 JPA repository interfaces.
+2026-04-16T17:07:13.060+05:00  INFO 4824 --- [SpringDemo] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-04-16T17:07:13.091+05:00  INFO 4824 --- [SpringDemo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T17:07:13.091+05:00  INFO 4824 --- [SpringDemo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-16T17:07:13.196+05:00  INFO 4824 --- [SpringDemo] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3116 ms
+2026-04-16T17:07:13.629+05:00  INFO 4824 --- [SpringDemo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T17:07:14.121+05:00  INFO 4824 --- [SpringDemo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-04-16T17:07:14.124+05:00  INFO 4824 --- [SpringDemo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T17:07:14.666+05:00  INFO 4824 --- [SpringDemo] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-16T17:07:14.824+05:00  INFO 4824 --- [SpringDemo] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-04-16T17:07:15.877+05:00  INFO 4824 --- [SpringDemo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T17:07:16.005+05:00  WARN 4824 --- [SpringDemo] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T17:07:16.038+05:00  INFO 4824 --- [SpringDemo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T17:07:17.165+05:00  INFO 4824 --- [SpringDemo] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T17:07:17.188+05:00  INFO 4824 --- [SpringDemo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T17:07:17.327+05:00  INFO 4824 --- [SpringDemo] [main] o.s.s.p.JdbcUserDetailsManager           : No authentication manager set. Reauthentication of users when changing passwords will not be performed.
+2026-04-16T17:07:17.348+05:00  INFO 4824 --- [SpringDemo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-04-16T17:07:17.565+05:00  WARN 4824 --- [SpringDemo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T17:07:19.078+05:00  INFO 4824 --- [SpringDemo] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T17:07:19.089+05:00  INFO 4824 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : Started SpringDemoApplication in 13.258 seconds (process running for 15.844)
+2026-04-16T17:08:07.675+05:00  INFO 4824 --- [SpringDemo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-16T17:08:07.675+05:00  INFO 4824 --- [SpringDemo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-16T17:08:07.677+05:00  INFO 4824 --- [SpringDemo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-04-16T17:14:33.699+05:00  INFO 4824 --- [SpringDemo] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T17:14:33.718+05:00  INFO 4824 --- [SpringDemo] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-04-16T17:14:33.726+05:00  INFO 4824 --- [SpringDemo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T17:14:33.732+05:00  INFO 4824 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T17:14:33.737+05:00  INFO 4824 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T17:14:40.172+05:00  INFO 12580 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : Starting SpringDemoApplication using Java 25.0.1 with PID 12580 (D:\Backend\Spring Boot\SpringDemo\target\classes started by mtahi in D:\Backend\Spring Boot\SpringDemo)
+2026-04-16T17:14:40.180+05:00  INFO 12580 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T17:14:42.655+05:00  INFO 12580 --- [SpringDemo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T17:14:42.694+05:00  INFO 12580 --- [SpringDemo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 0 JPA repository interfaces.
+2026-04-16T17:14:43.678+05:00  INFO 12580 --- [SpringDemo] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-04-16T17:14:43.700+05:00  INFO 12580 --- [SpringDemo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T17:14:43.701+05:00  INFO 12580 --- [SpringDemo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-16T17:14:43.783+05:00  INFO 12580 --- [SpringDemo] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3488 ms
+2026-04-16T17:14:44.017+05:00  INFO 12580 --- [SpringDemo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T17:14:44.350+05:00  INFO 12580 --- [SpringDemo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-04-16T17:14:44.352+05:00  INFO 12580 --- [SpringDemo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T17:14:44.521+05:00  INFO 12580 --- [SpringDemo] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-16T17:14:44.629+05:00  INFO 12580 --- [SpringDemo] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-04-16T17:14:45.185+05:00  INFO 12580 --- [SpringDemo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T17:14:45.256+05:00  WARN 12580 --- [SpringDemo] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T17:14:45.276+05:00  INFO 12580 --- [SpringDemo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T17:14:45.956+05:00  INFO 12580 --- [SpringDemo] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T17:14:45.965+05:00  INFO 12580 --- [SpringDemo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T17:14:46.042+05:00  INFO 12580 --- [SpringDemo] [main] o.s.s.p.JdbcUserDetailsManager           : No authentication manager set. Reauthentication of users when changing passwords will not be performed.
+2026-04-16T17:14:46.055+05:00  INFO 12580 --- [SpringDemo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-04-16T17:14:46.139+05:00  WARN 12580 --- [SpringDemo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T17:14:47.137+05:00  INFO 12580 --- [SpringDemo] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T17:14:47.145+05:00  INFO 12580 --- [SpringDemo] [main] bank.springdemo.SpringDemoApplication    : Started SpringDemoApplication in 8.003 seconds (process running for 9.754)
+2026-04-16T17:26:48.239+05:00  INFO 12580 --- [SpringDemo] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T17:26:48.250+05:00  INFO 12580 --- [SpringDemo] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-04-16T17:26:48.258+05:00  INFO 12580 --- [SpringDemo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T17:26:48.277+05:00  INFO 12580 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T17:26:48.285+05:00  INFO 12580 --- [SpringDemo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
