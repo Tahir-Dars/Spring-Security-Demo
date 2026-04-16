@@ -3,6 +3,7 @@ package bank.springdemo.SecurityConfigurations;
 import bank.springdemo.jwt.AuthEntryPoint;
 import bank.springdemo.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -64,17 +64,24 @@ public class SecurityConfigs {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder().encode("password1")).roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin1")
-                .password(passwordEncoder().encode("admin1")).roles("ADMIN")
-                .build();
-        JdbcUserDetailsManager userDetailsManager =
-                new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.createUser(user1);
-        userDetailsManager.createUser(admin);
-        return userDetailsManager;
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+    @Bean
+    public CommandLineRunner ClrForUser(UserDetailsService userDetailsService) {
+        return args -> {
+            JdbcUserDetailsManager manager = (JdbcUserDetailsManager) userDetailsService;
+            UserDetails user1 = User.withUsername("user1")
+                    .password(passwordEncoder().encode("password1")).roles("USER")
+                    .build();
+            UserDetails admin = User.withUsername("admin1")
+                    .password(passwordEncoder().encode("admin1")).roles("ADMIN")
+                    .build();
+            JdbcUserDetailsManager userDetailsManager =
+                    new JdbcUserDetailsManager(dataSource);
+            userDetailsManager.createUser(user1);
+            userDetailsManager.createUser(admin);
+        };
     }
 
     @Bean
