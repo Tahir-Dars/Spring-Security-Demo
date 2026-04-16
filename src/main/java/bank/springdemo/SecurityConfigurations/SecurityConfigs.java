@@ -2,6 +2,7 @@ package bank.springdemo.SecurityConfigurations;
 
 import bank.springdemo.jwt.AuthEntryPoint;
 import bank.springdemo.jwt.AuthTokenFilter;
+import bank.springdemo.jwt.jwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -37,12 +38,13 @@ public class SecurityConfigs {
     private AuthEntryPoint unauthorizedHandler;
 
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public AuthTokenFilter authTokenFilter(jwtUtils jwtUtilss,
+                                           UserDetailsService userDetailsService) {
+        return new AuthTokenFilter(jwtUtilss, userDetailsService);
     }
 
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthTokenFilter authTokenFilter) throws Exception {
         http.authorizeHttpRequests((requests) ->
                 requests.requestMatchers("/h2-console/**").permitAll().
                         requestMatchers("/signin").permitAll().anyRequest().authenticated());
@@ -57,7 +59,7 @@ public class SecurityConfigs {
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
         );
         http.csrf(AbstractHttpConfigurer::disable);
-        http.addFilterBefore(authenticationJwtTokenFilter(),
+        http.addFilterBefore(authTokenFilter,
                 UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
